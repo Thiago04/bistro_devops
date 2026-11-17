@@ -7,7 +7,7 @@ FUNCIONALIDADES
 - Total calculado por comanda.
 - Observação da cozinha, editável enquanto a comanda está aberta.
 - Marcação como entregue.
-- Cadastro, edição, ativação e desativação de produtos.
+- Cadastro, edição, ativação e desativação de produtos, na aba Produtos (mesma página).
 - Dez produtos de exemplo incluídos no SQL.
 - PDO, consultas preparadas e escape de saída HTML.
 
@@ -24,7 +24,8 @@ TESTE LOCAL (XAMPP, MySQL ou MariaDB em localhost:3306)
 4. Confira config/database.php (padrão XAMPP: localhost, 3306, bistro_devops, root, senha vazia).
    Se seu MySQL usa senha ou outra porta, ajuste ali.
 5. Abra http://localhost/bistro_devops/
-6. Para gerenciar o cardápio: http://localhost/bistro_devops/produtos.php
+6. Tudo fica em uma página só: use as abas "Comandas" e "Produtos" no topo para alternar
+   (o antigo produtos.php apenas redireciona para a aba Produtos).
 
 ERRO "Unknown database 'bistro_devops'" (no DBeaver ou no site)
 - Significa que o banco ainda não foi criado: execute o passo 3 acima.
@@ -43,8 +44,8 @@ PUBLICAÇÃO NO INFINITYFREE
 5. Teste cadastro de comanda, alteração de observação, entrega e cadastro de produtos.
 
 ESTRUTURA
-index.php              Painel de comandas
-produtos.php           Cadastro e edição do cardápio
+index.php              Página única com abas: Comandas e Produtos (cardápio)
+produtos.php           Atalho: redireciona para a aba Produtos do index.php
 config/database.php    Conexão PDO
 database.sql           Tabelas e produtos de exemplo
 assets/style.css       Estilos responsivos
@@ -65,3 +66,5 @@ CORREÇÕES APLICADAS NESTA VERSÃO
 - produtos.php: limite de caracteres contado em caracteres (antes contava bytes e recusava
   nomes com acento); validação da descrição; redirecionamento após salvar/alternar
   (antes, apertar F5 reenviava o formulário e duplicava produtos).
+- Comandas e produtos agora ficam na mesma página, em abas que trocam sem recarregar.
+  Sem JavaScript, o menu continua funcionando por links (?aba=produtos).
