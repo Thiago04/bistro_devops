@@ -9,6 +9,9 @@ FUNCIONALIDADES
 - Marcação como entregue.
 - Cadastro, edição, ativação e desativação de produtos, na aba Produtos (mesma página).
 - Dez produtos de exemplo incluídos no SQL.
+- Cadastro de usuários (aba Usuários): nome, e-mail único, telefone, perfil (Gerente, Garçom,
+  Cozinha, Caixa), senha e status ativo/inativo. Permite editar e ativar/desativar.
+  Senhas gravadas apenas como hash (password_hash / bcrypt), nunca em texto puro.
 - PDO, consultas preparadas e escape de saída HTML.
 
 TESTE LOCAL (XAMPP, MySQL ou MariaDB em localhost:3306)
@@ -24,8 +27,14 @@ TESTE LOCAL (XAMPP, MySQL ou MariaDB em localhost:3306)
 4. Confira config/database.php (padrão XAMPP: localhost, 3306, bistro_devops, root, senha vazia).
    Se seu MySQL usa senha ou outra porta, ajuste ali.
 5. Abra http://localhost/bistro_devops/
-6. Tudo fica em uma página só: use as abas "Comandas" e "Produtos" no topo para alternar
+6. Tudo fica em uma página só: use as abas "Comandas", "Produtos" e "Usuários" no topo para alternar
    (o antigo produtos.php apenas redireciona para a aba Produtos).
+
+JÁ TINHA IMPORTADO O BANCO ANTES? (atualização para incluir Usuários)
+- Importe apenas o arquivo migracao_usuarios.sql no banco existente (phpMyAdmin: selecione o banco >
+  Importar; terminal: mysql -u root -p bistro_devops < migracao_usuarios.sql).
+  Ele só cria a tabela "usuarios" e não altera comandas nem produtos.
+- Sem isso, a aba Usuários avisa que a tabela não existe (o resto do sistema continua funcionando).
 
 ERRO "Unknown database 'bistro_devops'" (no DBeaver ou no site)
 - Significa que o banco ainda não foi criado: execute o passo 3 acima.
@@ -44,10 +53,11 @@ PUBLICAÇÃO NO INFINITYFREE
 5. Teste cadastro de comanda, alteração de observação, entrega e cadastro de produtos.
 
 ESTRUTURA
-index.php              Página única com abas: Comandas e Produtos (cardápio)
+index.php              Página única com abas: Comandas, Produtos (cardápio) e Usuários
 produtos.php           Atalho: redireciona para a aba Produtos do index.php
 config/database.php    Conexão PDO
-database.sql           Tabelas e produtos de exemplo
+database.sql           Tabelas (inclui usuarios) e produtos de exemplo
+migracao_usuarios.sql  Só a tabela usuarios, para quem já importou o banco antes
 assets/style.css       Estilos responsivos
 
 NOTAS
@@ -55,6 +65,9 @@ NOTAS
   operação falhar; isso é normal em bancos SQL.
 - O preço do item é copiado para a comanda e não muda se o preço do produto for alterado.
 - Produtos inativos não aparecem em novas comandas, mas continuam no histórico.
+- O cadastro de usuários grava e-mail e senha (hash), mas o sistema ainda NÃO tem tela de login:
+  as abas continuam abertas a qualquer pessoa. Para proteger de verdade, o próximo passo é
+  implementar login com sessão usando password_verify() sobre a tabela usuarios.
 - Sem login, conforme solicitado: use apenas como demonstração didática. Não use dados
   reais nem exponha como sistema de produção sem implementar autenticação e autorização.
 - Não publique credenciais reais em repositório público.

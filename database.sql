@@ -57,3 +57,19 @@ UNION ALL SELECT 'Água mineral','Garrafa de 500 ml','Bebidas',4.00,1
 UNION ALL SELECT 'Pudim de leite','Fatia de pudim caseiro','Sobremesas',9.50,1
 ) AS t
 WHERE NOT EXISTS (SELECT 1 FROM produtos);
+
+-- Usuários do sistema (cadastro na aba "Usuários").
+-- A senha NUNCA é guardada em texto puro: apenas o hash gerado por password_hash() (bcrypt).
+CREATE TABLE IF NOT EXISTS usuarios (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+ nome VARCHAR(120) NOT NULL,
+ email VARCHAR(150) NOT NULL,
+ telefone VARCHAR(11) DEFAULT NULL,
+ perfil ENUM('gerente','garcom','cozinha','caixa') NOT NULL DEFAULT 'garcom',
+ senha_hash VARCHAR(255) NOT NULL,
+ ativo TINYINT(1) NOT NULL DEFAULT 1,
+ criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (id), UNIQUE KEY uq_usuarios_email (email),
+ INDEX idx_usuarios_ativo_nome (ativo,nome)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
