@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
-// Local (XAMPP / MySQL / MariaDB): localhost / 3306 / bistro_devops / root / senha vazia.
-// Se o seu root tiver senha, ou a porta for outra, ajuste abaixo.
-// InfinityFree: substitua pelos dados exatos exibidos no painel da hospedagem
-// (o host remoto normalmente NÃO é localhost e o banco/usuário têm prefixo, ex.: if0_123_bistro).
-// Opcional: também aceita variáveis de ambiente DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS.
-$dbHost = getenv('DB_HOST') ?: 'localhost';
+
+$dbHost = getenv('DB_HOST') ?: 'sql102.infinityfree.com';
 $dbPort = getenv('DB_PORT') ?: '3306';
-$dbName = getenv('DB_NAME') ?: 'bistro_devops';
-$dbUser = getenv('DB_USER') ?: 'root';
-$dbPass = getenv('DB_PASS') !== false ? (string)getenv('DB_PASS') : '';
+$dbName = getenv('DB_NAME') ?: 'if0_43418219_localhost';
+$dbUser = getenv('DB_USER') ?: 'if0_43418219';
+$dbPass = getenv('DB_PASS') !== false ? (string)getenv('DB_PASS') : 'Th04ce1293con';
+
 try {
     $pdo = new PDO("mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4", $dbUser, $dbPass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
